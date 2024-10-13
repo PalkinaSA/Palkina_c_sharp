@@ -1,0 +1,808 @@
+using System.Diagnostics.Contracts;
+
+internal class Program
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Вариант 16. ЧЁТНЫЕ ЗАДАЧИ");
+        Program p = new Program();
+        int exerciseNumber;     // номер задания
+        int number;             // номер задачи
+
+        Random random = new Random();
+
+        while (true)
+        {
+            // Проверка на корректность введения числа в exerciseNumber ( подходят только числа 1, 2, 3, 4 и 0)
+            do
+            {
+                try
+                {
+                    Console.Write("Введите номер задания (0 - при окончании работы): ");
+                    exerciseNumber = Convert.ToInt32(Console.ReadLine());
+                    if (exerciseNumber > 4 || exerciseNumber < 0) throw new Exception();
+                    if (exerciseNumber == 0) return;
+                }
+                catch
+                {
+                    Console.WriteLine("Неправильно набран номер задания!");
+                    exerciseNumber = -1;
+                }
+            } while (exerciseNumber == -1);
+
+            // Проверка на корректность введения числа в number (подходят только числа 2, 4, 6, 8, 10 и 0)
+            do
+            {
+                try
+                {
+                    Console.Write("Введите номер задачи (0 - при окончании работы): ");
+                    number = Convert.ToInt32(Console.ReadLine());
+                    if (number % 2 == 1 || number > 10 || number < 0) throw new Exception();
+                    if (number == 0) return;
+                }
+                catch
+                {
+                    Console.WriteLine("Неправильно набран номер задачи!");
+                    number = -1;
+                }
+            } while (number == -1);
+
+            // Выбор задания
+            switch (exerciseNumber)
+            {
+                case 1: // Задание 1. Методы
+                    {
+                        Console.WriteLine("Задание 1. Методы");
+                        // Выбор задачи
+                        switch (number)
+                        {
+                            case 2: // Сумма знаков
+                                {
+                                    Console.Write("'Сумма знаков'. Введите целое число, состоящее из двух и более цифр: ");
+                                    int x;
+                                    try
+                                    {
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                        if (x < 10) throw new Exception();
+                                    }catch
+                                    {
+                                        Console.WriteLine("Неправильно подобрано число");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.sumLastNums(x));
+                                    break;
+                                }
+                            case 4: // Есть ли позитив
+                                {
+                                    Console.Write("'Есть ли позитив'. Введите целое число: ");
+                                    int x;
+                                    try
+                                    {
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно подобрано число");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.isPositive(x));
+                                    break;
+                                }
+                            case 6: // Большая буква
+                                {
+                                    Console.Write("'Большая буква'. Введите символ: ");
+                                    char x;
+                                    try
+                                    {
+                                        x = Convert.ToChar(Console.ReadLine());
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно подобран символ");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.isUpperCase(x));
+                                    break;
+                                }
+                            case 8: // Делитель
+                                {
+                                    Console.WriteLine("'Делитель'. Введите два целых числа.");
+                                    int a, b;
+                                    try
+                                    {
+                                        Console.Write("a = ");
+                                        a = Convert.ToInt32(Console.ReadLine());
+                                        Console.Write("b = ");
+                                        b = Convert.ToInt32(Console.ReadLine());
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно введены числа");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.isDivisor(a, b));
+                                    break;
+                                }
+                            case 10:// Многократный вызов
+                                {
+                                    Console.WriteLine("'Многократный вызов'. Введите два целых неотрицательных числа.");
+                                    int result, b = 0;
+
+                                    try
+                                    {
+                                        Console.Write("Число = ");
+                                        result = Convert.ToInt32(Console.ReadLine());
+                                        if (result < 0) throw new Exception();
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно введены числа");
+                                        break;
+                                    }
+
+                                    for (int i = 0; i < 4; i++)
+                                    {
+                                        try
+                                        {
+                                            Console.Write("Ещё число = ");
+                                            b = Convert.ToInt32(Console.ReadLine());
+                                            if (b < 0) throw new Exception();
+                                        }
+                                        catch
+                                        {
+                                            Console.WriteLine("Неправильно введено число");
+                                            break;
+                                        }
+
+                                        Console.WriteLine("{0} + {1} это {2}", result, b, p.lastNumSum(result, b));
+                                        result = p.lastNumSum(result, b);
+                                    }
+                                    
+                                    Console.WriteLine("Результат: {0}", result);
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        Console.WriteLine("Задание 2. Условия");
+                        // Выбор задачи
+                        switch (number)
+                        {
+                            case 2: // Безопасное деление
+                                {
+                                    Console.WriteLine("'Безопасное деление'. Введите 2 целых числа: ");
+                                    int x, y;
+                                    
+                                    try
+                                    {
+                                        Console.Write("x = ");
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                        Console.Write("y = ");
+                                        y = Convert.ToInt32(Console.ReadLine());
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Некорректно набраны числа");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: " + p.safeDiv(x, y));
+                                    break;
+                                }
+                            case 4: // Строка сравнения
+                                {
+                                    Console.WriteLine("'Строка сравнения'. Введите 2 целых числа: ");
+                                    int x, y;
+
+                                    try
+                                    {
+                                        Console.Write("x = ");
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                        Console.Write("y = ");
+                                        y = Convert.ToInt32(Console.ReadLine());
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Некорректно набраны числа");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.makeDecision(x, y));
+                                    break;
+                                }
+                            case 6: // Тройная сумма
+                                {
+                                    Console.WriteLine("'Тройная сумма'. Введите 3 целых числа: ");
+                                    int x, y, z;
+
+                                    try
+                                    {
+                                        Console.Write("x = ");
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                        Console.Write("y = ");
+                                        y = Convert.ToInt32(Console.ReadLine());
+                                        Console.Write("z = ");
+                                        z = Convert.ToInt32(Console.ReadLine());
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Некорректно набраны числа");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.sum3(x, y, z));
+                                    break;
+                                }
+                            case 8: // Возраст
+                                {
+                                    Console.WriteLine("'Возраст'. Введите целое неотрицательное число: ");
+                                    int age;
+
+                                    try
+                                    {
+                                        Console.Write("Возраст = ");
+                                        age = Convert.ToInt32(Console.ReadLine());
+                                        if (age < 0) throw new Exception(); 
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно набран возраст");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.age(age));
+                                    break;
+                                }
+                            case 10:// Вывод дней недели
+                                {
+                                    Console.WriteLine("'Вывод дней недели'. Введите название дня недели: ");
+                                    string weekday = Console.ReadLine();
+                                    Console.WriteLine("Результат: ");
+                                    p.printDays(weekday);
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        Console.WriteLine("Задание 3. Циклы");
+                        switch (number)
+                        {
+                            case 2: // Числа наоборот
+                                {
+                                    Console.WriteLine("'Числа наоборот'. Введите целое положительное число:");
+                                    int x;
+                                    try
+                                    {
+                                        Console.Write("x = ");
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                        if (x <= 0) throw new Exception();
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно набрано число");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.reverseListNums(x));
+                                    break;
+                                }
+                            case 4: // Степень числа
+                                {
+                                    Console.WriteLine("'Степень числа'. Введите два целых положительных числа:");
+                                    int x, y;
+                                    try
+                                    {
+                                        Console.Write("x = ");
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                        if (x <= 0) throw new Exception();
+                                        Console.Write("y = ");
+                                        y = Convert.ToInt32(Console.ReadLine());
+                                        if (y <= 0) throw new Exception();
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Некорректно набраны числа");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.pow(x,y));
+                                    break;
+                                }
+                            case 6: // Одинаковость
+                                {
+                                    Console.WriteLine("'Одинаковость'. Введите целое положительное число:");
+                                    int x;
+                                    try
+                                    {
+                                        Console.Write("x = ");
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                        if (x <= 0) throw new Exception();
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно набрано число");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.equalNum(x));
+                                    break;
+                                }
+                            case 8: // Левый треугольник
+                                {
+                                    Console.WriteLine("'Левый треугольник'. Введите целое положительное число:");
+                                    int x;
+                                    try
+                                    {
+                                        Console.Write("x = ");
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                        if (x <= 0) throw new Exception();
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно набрано число");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат:");
+                                    p.leftTriangle(x);
+                                    break;
+                                }
+                            case 10:// Угадайка
+                                {
+                                    Console.WriteLine("'Угадайка'");
+                                    p.guessGame();
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                case 4:
+                    {
+                        Console.WriteLine("Задание 4. Массивы");
+
+                        int size;
+                        do
+                        {
+                            try
+                            {
+                                Console.Write("Введите размер массива для работы: ");
+                                size = Convert.ToInt32(Console.ReadLine());
+                                if (size <= 0) throw new Exception();
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Неправильный размер массива");
+                                size = -1;
+                            }
+                        } while (size == -1);
+                        
+                        int[] arr = new int[size];
+                        for (int i = 0; i < size; i++)
+                        {
+                            arr[i] = random.Next(-10, 11);
+                        }
+                        Console.Write("Массив:");
+                        for (int i = 0; i < size; i++)
+                        {
+                            Console.Write("\t" + arr[i]);
+                        }
+                        Console.WriteLine();
+
+                        switch (number)
+                        {
+                            case 2: // Поиск последнего значения
+                                {
+                                    Console.WriteLine("'Поиск последнего значения'");
+                                    
+                                    int x;
+                                    try
+                                    {
+                                        Console.Write("Введите значение элемента: ");
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно набрано число");
+                                        break;
+                                    }
+                                    Console.WriteLine("Результат: {0}", p.findLast(arr, x));
+
+                                    break;
+                                }
+                            case 4: // Добавление в массив
+                                {
+                                    Console.WriteLine("'Добавление в массив'");
+                                    int x, pos;
+                                    try
+                                    {
+                                        Console.Write("Введите значение элемента: ");
+                                        x = Convert.ToInt32(Console.ReadLine());
+                                        Console.Write("Введите позицию элемента для вставки: ");
+                                        pos = Convert.ToInt32(Console.ReadLine());
+                                        if (pos < 0 || pos >= size) throw new Exception();
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно набраны данные");
+                                        break;
+                                    }
+
+                                    int[] arr1 = p.add(arr, x, pos);
+                                    
+                                    Console.Write("Результат: ");   // Вывод результата
+                                    for (int i = 0; i < arr1.Length; i++)
+                                    {
+                                        Console.Write("\t" + arr1[i]);
+                                    }
+                                    Console.WriteLine();
+                                    break;
+                                }
+                            case 6: // Реверс
+                                {
+                                    Console.WriteLine("'Реверс'");
+
+                                    Console.Write("Результат:");
+                                    p.reverse(arr);
+                                    Console.WriteLine();
+
+                                    break;
+                                }
+                            case 8: // Объединение
+                                {
+                                    Console.WriteLine("'Объединение'");
+
+                                    int size1;  // размер второго массива
+                                    try
+                                    {
+                                        Console.Write("Введите размер второго массива: ");
+                                        size1 = Convert.ToInt32(Console.ReadLine());
+                                        if (size1 <= 0) throw new Exception();
+                                    }
+                                    catch
+                                    {
+                                        Console.WriteLine("Неправильно набран размер массива");
+                                        break;
+                                    }
+
+                                    int[] arr1 = new int[size1];            // второй массив
+                                    for (int i = 0; i < arr1.Length; i++)
+                                    {
+                                        arr1[i] = random.Next(-10, 11);
+                                    }
+
+                                    Console.Write("Второй массив:");
+                                    for (int i = 0; i < arr1.Length; i++)
+                                    {
+                                        Console.Write("\t" + arr1[i]);
+                                    }
+                                    Console.WriteLine();
+
+                                    int[] arrConcat = p.concat(arr, arr1);  // само объединение
+
+                                    Console.Write("Результат:");            // вывод результата
+                                    for (int i = 0; i < arrConcat.Length; i++)
+                                    {
+                                        Console.Write("\t" + arrConcat[i]);
+                                    }
+                                    Console.WriteLine();
+                                    break;
+                                }
+                            case 10:// Удалить негатив
+                                {
+                                    Console.WriteLine("'Удалить негатив'");
+                                    
+                                    int[] arr1 = p.deleteNegative(arr);
+
+                                    Console.Write("Результат:");
+                                    for (int i = 0; i < arr1.Length; i++)
+                                    {
+                                        Console.Write("\t" + arr1[i]);
+                                    }
+                                    Console.WriteLine();
+
+                                    break;
+                                }
+                            default:
+                                {
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+            Console.WriteLine();
+        }
+    }
+
+    // 1 Методы
+    // Сумма знаков
+    public int sumLastNums(int x)
+    {
+        return (x % 10) + (x / 10) % 10;
+    }
+
+    // Есть ли Позитив
+    public bool isPositive(int x)
+    {
+        return x > 0;
+    }
+
+    // Большая буква
+    public bool isUpperCase(char x)
+    {
+        return x >= 'A' && x <= 'Z';
+    }
+
+    // Делитель
+    public bool isDivisor(int a, int b)
+    {
+        return a % b == 0 || b % a == 0;
+    }
+
+    // Многократный вызов
+    public int lastNumSum(int a, int b)
+    {
+        return a % 10 + b % 10;
+    }
+
+    // 2 Условия
+    // Безопасное деление
+    public double safeDiv(int x, int y)
+    {
+        if (y == 0) return 0;
+        return (double)x / y;
+    }
+
+    // Строка сравнения
+    public String makeDecision(int x, int y)
+    {
+        if (x < y) return x + "<" + y;
+        else if (x > y) return x + ">" + y;
+        else return x + "==" + y;
+    }
+
+    // Тройная сумма
+    public bool sum3(int x, int y, int z)
+    {
+        return x + y == z || y + z == x || x + z == y;
+    }
+
+    // Возраст
+    public String age(int x)
+    {
+        if (x % 10 == 1 && x != 11) return x + " год";
+        else if ((x % 10 == 2 || x % 10 == 3 || x % 10 == 4) 
+            && x != 12 && x != 13 && x != 14) return x + " года";
+        else return x + " лет";
+    }
+
+    // Вывод дней недели
+    public void printDays(String x)
+    {
+        switch (x.ToLower())
+        {
+            case "понедельник":
+                Console.WriteLine("понедельник");
+                goto case "вторник";
+            case "вторник":
+                Console.WriteLine("вторник");
+                goto case "среда";
+            case "среда":
+                Console.WriteLine("среда");
+                goto case "четверг";
+            case "четверг":
+                Console.WriteLine("четверг");
+                goto case "пятница";
+            case "пятница":
+                Console.WriteLine("пятница");
+                goto case "суббота";
+            case "суббота":
+                Console.WriteLine("суббота");
+                goto case "воскресенье";
+            case "воскресенье":
+                Console.WriteLine("воскресенье");
+                break;
+            default:
+                Console.WriteLine("это не день недели");
+                break;
+        }
+    }
+
+    // 3 Циклы
+    // Числа наоборот
+    public String reverseListNums(int x)
+    {
+        String str = "";
+        for (int i = x; i >= 0; i--)
+        {
+            str += (i + " ");
+        }
+        return str;
+    }
+
+    // Степень числа
+    public int pow(int x, int y)
+    {
+        int result = 1;
+        for (int i = 0; i < y; i++)
+        {
+            result *= x;
+        }
+        return result;
+    }
+
+    // Одинаковость
+    public bool equalNum(int x)
+    {
+        while (x > 9)
+        {
+            if (x % 10 != x / 10 % 10) return false;
+            x = x / 10;
+        }
+        return true;
+    }
+
+    // Левый треугольник
+    public void leftTriangle(int x)
+    {
+        String str = "";
+        for (int i = 0; i < x; i++)
+        {
+            str += "*";
+            Console.WriteLine(str);
+        }
+    }
+
+    // Угадайка
+    public void guessGame()
+    {
+        int i = 0;  // попытки
+        Random random = new Random();   // число
+        int guessNumber = random.Next(0, 10);
+        int x = -1;
+
+        while (true)
+        {
+            i++;
+            try
+            {
+                Console.WriteLine("Введите число от 0 до 9");
+                x = Convert.ToInt32(Console.ReadLine());
+                if (x > 9 || x < 0) throw new Exception();
+            }
+            catch
+            {
+                Console.WriteLine("Неправильно введено число");
+                break;
+            }
+            if (x == guessNumber)   // Если угадал
+            {
+                Console.WriteLine("Вы отгадали число с {0}-й попытки!", i);
+                break;
+            }
+            else Console.WriteLine("Попробуйте ещё раз");   // Иначе
+        }
+    }
+
+    // 4 Массивы
+    // Поиск последнего значения
+    public int findLast(int[] arr, int x)
+    {
+        // Проходим по массиву с конца
+        for (int i = arr.Length - 1; i >= 0; i--)
+        {
+            if (arr[i] == x)
+            {
+                return i; // Возвращаем индекс последнего вхождения
+            }
+        }
+        return -1; // Если число не найдено
+    }
+
+    // Добавление в массив
+    public int[] add(int[] arr, int x, int pos)
+    {
+        // Создаём новый массив на 1 элемент больше исходного
+        int[] newArr = new int[arr.Length + 1];
+
+        // Копируем элементы до позиции pos
+        for (int i = 0; i < pos; i++)
+        {
+            newArr[i] = arr[i];
+        }
+
+        // Вставляем элемент x на позицию pos
+        newArr[pos] = x;
+
+        // Копируем оставшиеся элементы после pos
+        for (int i = pos; i < arr.Length; i++)
+        {
+            newArr[i + 1] = arr[i];
+        }
+
+        return newArr;
+    }
+
+    // Реверс
+    public void reverse(int[] arr)
+    {
+        int n = arr.Length;
+        // Проходим по половине массива и меняем местами элементы
+        for (int i = 0; i < n / 2; i++)
+        {
+            // Меняем местами элементы arr[i] и arr[n - i - 1]
+            int temp = arr[i];
+            arr[i] = arr[n - i - 1];
+            arr[n - i - 1] = temp;
+        }
+
+        // Выводим полученный массив
+        for (int i = 0; i < arr.Length; i++)
+        {
+            Console.Write("\t" + arr[i]);
+        }
+    }
+
+    // Объединение
+    public int[] concat(int[] arr1, int[] arr2)
+    {
+        // Создаём новый массив с размером, равным сумме длин arr1 и arr2
+        int[] result = new int[arr1.Length + arr2.Length];
+
+        // Копируем элементы первого массива в новый массив
+        for (int i = 0; i < arr1.Length; i++)
+        {
+            result[i] = arr1[i];
+        }
+
+        // Копируем элементы второго массива в новый массив
+        for (int i = 0; i < arr2.Length; i++)
+        {
+            result[arr1.Length + i] = arr2[i];
+        }
+
+        return result;
+    }
+
+    // Удалить негатив
+    public int[] deleteNegative(int[] arr)
+    {
+        // Считаем количество неотрицательных элементов
+        int count = 0;
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (arr[i] >= 0)
+            {
+                count++;
+            }
+        }
+
+        // Создаём новый массив нужной длины
+        int[] result = new int[count];
+
+        // Заполняем новый массив неотрицательными элементами
+        int index = 0;
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (arr[i] >= 0)
+            {
+                result[index] = arr[i];
+                index++;
+            }
+        }
+
+        return result;
+    }
+}
